@@ -32,13 +32,29 @@
       <learn-module-no3-inline-template inline-template>
         <div>
           <h3>在父组件定义子组件的模板</h3>
-          <!-- 目前上面这一句不显示,好奇怪啊 -->
           <p>{{ message }}</p>
+          <!-- 目前上面这一句不显示,好奇怪啊 -->
+<!-- *******遗留问题！！！！！！！！！！！！！！！ -->
           <p>{{  msg }}</p>
         </div>
       </learn-module-no3-inline-template>
     </div>
 <!-- 以上，例三 --> 
+
+    <div class="dive">
+      <h1>例子四. 高级组件之动态组件</h1>
+      <span>component元素使用is特性来选择需要挂载的组件，在components里面构建组件</span>
+      <hr/>
+      <component :is="currentView"></component>
+      <button @click="handleChangeView('A')">点击切换到组件A</button>
+      <button @click="handleChangeView('B')">点击切换到组件B</button>
+      <button @click="handleChangeView('C')">点击切换到组件C</button>
+      <span>使用var构建组件</span>
+      <component :is="currentView2"></component>
+      <button @click="handleChangeView2('D')">点击切换到组件varcomD</button>
+      <button @click="handleChangeView2('E')">点击切换到组件varcomE</button>
+    </div>
+<!-- 以上，例四--> 
 
   </div>
 </template>
@@ -51,7 +67,9 @@
       return{
         total:0,
         sum:100,
-        message: '在父组件data中声明的数据11'
+        message: '在父组件data中声明的数据11',
+        currentView: 'comD',
+        currentView2: varcomD
       }
     },
     methods:{
@@ -60,10 +78,31 @@
       },
       handleReduce:function(){
         this.sum--;
+      },
+      handleChangeView: function(component){
+        this.currentView='com'+ component
+      },
+      handleChangeView2: function(component){
+        switch(component) {
+          case 'D': currentView2=varcomD;break;
+          case "E": currentVIew2=varcomE;break;
+          default:break;
+        } 
+
       }
     },
     components:{
-      myComponentTestEmit
+      myComponentTestEmit,
+      comA:{
+        template:'<div>本组件是comA</div>'
+      },
+      comB:{
+        template:'<div>本组件是comB</div>'
+      },
+      comC:{
+        template:'<div>本组件是comC</div>'
+      },
+      //例子四动态组件所需的组件配置
     }
   }
   Vue.component('learn-module-no3-inline-template',{
@@ -74,6 +113,12 @@
       }
     }
   })
+  var varcomD={
+    template:'<div>本组件是使用var声明的comD</div>'
+  }
+  var varcomE={
+    template:'<div>本组件是使用var声明的comE</div>'
+  }
 </script>
 <style>
   .div{
@@ -87,6 +132,10 @@
   }
   .dive span{
     display:block;
+  }
+  .dive button{
+    background: #FFEC8B;
+    border: 1px solid #FFB90F;
   }
 
 </style>
